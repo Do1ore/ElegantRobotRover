@@ -47,16 +47,16 @@ public class CommandHelperService : ICommandExecutorHelperService
         switch (direction)
         {
             case Direction.North:
-                _rover!.YPosition += count;
+                _rover.YPosition += count;
                 break;
             case Direction.East:
-                _rover!.XPosition += count;
+                _rover.XPosition += count;
                 break;
             case Direction.South:
-                _rover!.YPosition -= count;
+                _rover.YPosition -= count;
                 break;
             case Direction.West:
-                _rover!.XPosition -= count;
+                _rover.XPosition -= count;
                 break;
             default:
                 throw new ArgumentException("Something wrong");

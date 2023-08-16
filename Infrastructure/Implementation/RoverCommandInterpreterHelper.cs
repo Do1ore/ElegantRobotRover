@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Abstractions;
 
@@ -7,15 +6,7 @@ namespace Infrastructure.Implementation;
 
 public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
 {
-    private readonly RobotRover _rover;
     private readonly Regex _commandPattern = new Regex(@"[RL]\d|\d", RegexOptions.Compiled);
-    private readonly IRoverDirectionChangerHelper _directionChangerHelper;
-
-    public RoverCommandInterpreterHelper(RobotRover rover, IRoverDirectionChangerHelper directionChangerHelper)
-    {
-        _rover = rover;
-        _directionChangerHelper = directionChangerHelper;
-    }
 
     public Direction InterpretDirection(string direction)
     {

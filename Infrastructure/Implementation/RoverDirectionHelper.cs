@@ -30,7 +30,7 @@ public class RoverDirectionHelper : IRoverDirectionChangerHelper
             throw new ArgumentException("Direction not found");
         }
 
-        Direction direction = Direction.North;
+        Direction direction;
 
         switch (turn)
         {
