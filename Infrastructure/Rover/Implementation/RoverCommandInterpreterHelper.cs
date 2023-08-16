@@ -6,7 +6,7 @@ namespace Infrastructure.Rover.Implementation;
 
 public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
 {
-    private readonly Regex _commandPattern = new Regex(@"[RL]\d|\d", RegexOptions.Compiled);
+    private readonly Regex _commandPattern = new(@"[RL]\d|\d", RegexOptions.Compiled);
 
     public Direction InterpretDirection(string direction)
     {
@@ -57,6 +57,7 @@ public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
                 commands.Add(new(Turn.Forward, result));
             }
         }
+
         return commands;
     }
 

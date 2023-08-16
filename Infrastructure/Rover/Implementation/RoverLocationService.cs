@@ -7,11 +7,11 @@ public class RoverLocationService : IRoverLocationService
 {
     private readonly RobotRover _robotRover;
     private readonly IRoverCommandInterpreterHelper _commandInterpreterHelper;
-    private readonly ICommandExecutorHelperService _commandExecutor;
+    private readonly ICommandExecutorHelper _commandExecutor;
 
     public RoverLocationService(RobotRover robotRover,
         IRoverCommandInterpreterHelper commandInterpreterHelper,
-        ICommandExecutorHelperService commandExecutor)
+        ICommandExecutorHelper commandExecutor)
     {
         _robotRover = robotRover;
         _commandInterpreterHelper = commandInterpreterHelper;

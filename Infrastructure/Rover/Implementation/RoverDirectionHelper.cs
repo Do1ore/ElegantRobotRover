@@ -4,7 +4,7 @@ using Infrastructure.Rover.Abstractions;
 
 namespace Infrastructure.Rover.Implementation;
 
-public class RoverDirectionHelper : IRoverDirectionChangerHelper
+public class RoverDirectionHelper : IRoverDirectionHelper
 {
     private readonly RobotRover _rover;
 
@@ -12,7 +12,6 @@ public class RoverDirectionHelper : IRoverDirectionChangerHelper
     {
         Direction.West, Direction.North, Direction.East, Direction.South
     });
-
 
     public RoverDirectionHelper(RobotRover rover)
     {

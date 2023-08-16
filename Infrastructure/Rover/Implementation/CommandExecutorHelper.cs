@@ -4,16 +4,16 @@ using Infrastructure.Rover.Abstractions;
 
 namespace Infrastructure.Rover.Implementation;
 
-public class CommandHelperService : ICommandExecutorHelperService
+public class CommandExecutorHelper : ICommandExecutorHelper
 {
     private readonly RobotRover _rover;
-    private readonly IRoverDirectionChangerHelper _directionChanger;
+    private readonly IRoverDirectionHelper _direction;
 
-    public CommandHelperService(RobotRover rover,
-        IRoverDirectionChangerHelper directionChanger)
+    public CommandExecutorHelper(RobotRover rover,
+        IRoverDirectionHelper direction)
     {
         _rover = rover;
-        _directionChanger = directionChanger;
+        _direction = direction;
     }
 
     public void ExecuteMoveCommand(List<(Turn turn, int timesToExecute)> commands)
@@ -27,14 +27,15 @@ public class CommandHelperService : ICommandExecutorHelperService
                     break;
 
                 case Turn.Left:
-                    _directionChanger.ChangeRoverDirection(Turn.Left);
+                    _direction.ChangeRoverDirection(Turn.Left);
                     MoveRover(_rover.CurrentDirection, command.timesToExecute);
                     break;
 
                 case Turn.Right:
-                    _directionChanger.ChangeRoverDirection(Turn.Right);
+                    _direction.ChangeRoverDirection(Turn.Right);
                     MoveRover(_rover.CurrentDirection, command.timesToExecute);
                     break;
+                
                 default: throw new ArgumentException("Invalid command");
             }
 

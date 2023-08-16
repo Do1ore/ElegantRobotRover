@@ -15,8 +15,8 @@ public static class ContainerBuilderExtensions
         builder.RegisterType<RoverLocationService>().As<IRoverLocationService>().InstancePerLifetimeScope();
         builder.RegisterType<RoverCommandInterpreterHelper>().As<IRoverCommandInterpreterHelper>()
             .InstancePerLifetimeScope();
-        builder.RegisterType<RoverDirectionHelper>().As<IRoverDirectionChangerHelper>().InstancePerLifetimeScope();
-        builder.RegisterType<CommandHelperService>().As<ICommandExecutorHelperService>().InstancePerLifetimeScope();
+        builder.RegisterType<RoverDirectionHelper>().As<IRoverDirectionHelper>().InstancePerLifetimeScope();
+        builder.RegisterType<CommandExecutorHelper>().As<ICommandExecutorHelper>().InstancePerLifetimeScope();
     }
 
     public static void AddConfiguration(this ContainerBuilder builder)
