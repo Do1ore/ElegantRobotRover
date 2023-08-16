@@ -1,16 +1,13 @@
 ﻿using Autofac;
-using Domain.Entities;
+using ElegantRobotRover;
 using Infrastructure.Rover.Abstractions;
-using Infrastructure.Rover.Implementation;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = new ContainerBuilder();
 
-builder.RegisterType<RobotRover>();
-
-builder.RegisterType<RoverLocationService>().As<IRoverLocationService>().InstancePerLifetimeScope();
-builder.RegisterType<RoverCommandInterpreterHelper>().As<IRoverCommandInterpreterHelper>().InstancePerLifetimeScope();
-builder.RegisterType<RoverDirectionHelper>().As<IRoverDirectionChangerHelper>().InstancePerLifetimeScope();
-builder.RegisterType<CommandHelperService>().As<ICommandExecutorHelperService>().InstancePerLifetimeScope();
+builder.ConfigureCustomServices();
+builder.AddConfiguration();
 
 
 var container = builder.Build();
