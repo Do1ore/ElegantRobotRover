@@ -18,4 +18,5 @@ using var scope = container.BeginLifetimeScope();
 var roverLocationService = scope.Resolve<IRoverLocationService>();
 
 roverLocationService.SetPosition(1, 1, "N");
-roverLocationService.Move("R3L46434353454R3R1R0R045656456");
+roverLocationService.Move("r1r2r3");
+

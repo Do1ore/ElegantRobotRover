@@ -32,7 +32,7 @@ public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
             throw new ArgumentException("Command is not valid");
         }
 
-        var matches = _commandPattern.Matches(command);
+        var matches = _commandPattern.Matches(command.ToUpper());
         List<(Turn, int)> commands = new List<(Turn, int)>();
 
         foreach (var match in matches.ToList())
