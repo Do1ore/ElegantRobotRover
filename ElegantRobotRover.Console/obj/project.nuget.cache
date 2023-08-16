@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Yn/UTj+hPE8t1UgvRxq73fg5Fizo3RE4sK3mWaeGTPUsGWod1Y7ZXjnbG0SP2v7M0V+XYv9+tjUE9+acpoIflQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\vladx\\RiderProjects\\ElegantRobotRover\\ElegantRobotRover.Console\\ElegantRobotRover.Console.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\vladx\\.nuget\\packages\\autofac\\7.1.0\\autofac.7.1.0.nupkg.sha512",
+    "C:\\Users\\vladx\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}
