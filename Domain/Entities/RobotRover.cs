@@ -1,8 +1,11 @@
+using Domain.Enums;
+
 namespace Domain.Entities;
 
-public class RobotRover
+public record RobotRover
 {
-    public required long XPosition { get; init; }
-    public required long YPosition { get; init; }
+    public long XPosition { get; set; }
+    public long YPosition { get; set; }
     public bool IsAlive { get; set; }
+    public Direction CurrentDirection { get; set; }
 }

@@ -1,16 +1,35 @@
+using Domain.Entities;
 using Infrastructure.Abstractions;
 
 namespace Infrastructure.Implementation;
 
 public class RoverLocationService : IRoverLocationService
 {
+    private readonly RobotRover _robotRover;
+    private readonly IRoverCommandInterpreterHelper _commandInterpreterHelper;
+    private readonly ICommandExecutorHelperService _commandExecutor;
+
+    public RoverLocationService(RobotRover robotRover,
+        IRoverCommandInterpreterHelper commandInterpreterHelper,
+        ICommandExecutorHelperService commandExecutor)
+    {
+        _robotRover = robotRover;
+        _commandInterpreterHelper = commandInterpreterHelper;
+        _commandExecutor = commandExecutor;
+    }
+
     public void SetPosition(int x, int y, string direction)
     {
-        throw new NotImplementedException();
+        _robotRover.XPosition = x;
+        _robotRover.YPosition = y;
+        var directionEnum = _commandInterpreterHelper.InterpretDirection(direction);
+        _robotRover.CurrentDirection = directionEnum;
+        Console.WriteLine(_robotRover.ToString());
     }
 
     public void Move(string commands)
     {
-        throw new NotImplementedException();
+        var tuplesCommands = _commandInterpreterHelper.InterpretCommand(commands);
+        _commandExecutor.ExecuteMoveCommand(tuplesCommands.ToList());
     }
 }
