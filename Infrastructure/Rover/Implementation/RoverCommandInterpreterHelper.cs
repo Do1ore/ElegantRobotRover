@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 using Domain.Enums;
-using Infrastructure.Abstractions;
+using Infrastructure.Rover.Abstractions;
 
-namespace Infrastructure.Implementation;
+namespace Infrastructure.Rover.Implementation;
 
 public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
 {
@@ -57,7 +57,6 @@ public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
                 commands.Add(new(Turn.Forward, result));
             }
         }
-
         return commands;
     }
 

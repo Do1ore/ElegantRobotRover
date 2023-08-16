@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Domain.Entities;
-using Infrastructure.Abstractions;
-using Infrastructure.Implementation;
+using Infrastructure.Rover.Abstractions;
+using Infrastructure.Rover.Implementation;
 
 var builder = new ContainerBuilder();
 
-builder.RegisterType<RobotRover>().SingleInstance();
+builder.RegisterType<RobotRover>();
 
 builder.RegisterType<RoverLocationService>().As<IRoverLocationService>().InstancePerLifetimeScope();
 builder.RegisterType<RoverCommandInterpreterHelper>().As<IRoverCommandInterpreterHelper>().InstancePerLifetimeScope();
@@ -17,6 +17,6 @@ var container = builder.Build();
 using var scope = container.BeginLifetimeScope();
 var roverLocationService = scope.Resolve<IRoverLocationService>();
 
+
 roverLocationService.SetPosition(1, 1, "N");
 roverLocationService.Move("r1r2r3");
-

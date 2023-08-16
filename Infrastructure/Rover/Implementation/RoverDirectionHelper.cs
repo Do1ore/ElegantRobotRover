@@ -1,8 +1,8 @@
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Abstractions;
+using Infrastructure.Rover.Abstractions;
 
-namespace Infrastructure.Implementation;
+namespace Infrastructure.Rover.Implementation;
 
 public class RoverDirectionHelper : IRoverDirectionChangerHelper
 {

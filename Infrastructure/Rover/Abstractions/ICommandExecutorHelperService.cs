@@ -1,6 +1,6 @@
 using Domain.Enums;
 
-namespace Infrastructure.Abstractions;
+namespace Infrastructure.Rover.Abstractions;
 
 public interface ICommandExecutorHelperService
 {
