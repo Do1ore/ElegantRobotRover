@@ -13,13 +13,18 @@ public static class ContainerBuilderExtensions
         builder.RegisterType<RobotRover>();
 
         builder.RegisterType<RoverLocationService>().As<IRoverLocationService>().InstancePerLifetimeScope();
+
         builder.RegisterType<RoverCommandInterpreterHelper>().As<IRoverCommandInterpreterHelper>()
             .InstancePerLifetimeScope();
+
         builder.RegisterType<RoverDirectionHelper>().As<IRoverDirectionHelper>().InstancePerLifetimeScope();
+
         builder.RegisterType<CommandExecutorHelper>().As<ICommandExecutorHelper>().InstancePerLifetimeScope();
+
+        builder.RegisterType<RoverHttpClientService>().As<IRoverHttpClientService>().InstancePerLifetimeScope();
     }
 
-    public static void AddConfiguration(this ContainerBuilder builder)
+    public static IConfiguration AddConfiguration(this ContainerBuilder builder)
     {
         var configurationBuilder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -28,5 +33,17 @@ public static class ContainerBuilderExtensions
         IConfiguration config = configurationBuilder.Build();
 
         builder.RegisterInstance(config).As<IConfiguration>().SingleInstance();
+        return config;
+    }
+
+    public static void AddSpaceStationHttpClient(this ContainerBuilder builder, IConfiguration configuration)
+    {
+        var baseUrl = configuration.GetSection("DefaultSpaceStationUrl").Value ??
+                      throw new ArgumentException("DefaultSpaceStationUrl not found");
+
+        builder.RegisterInstance(new HttpClient()
+        {
+            BaseAddress = new Uri(baseUrl)
+        }).SingleInstance();
     }
 }
