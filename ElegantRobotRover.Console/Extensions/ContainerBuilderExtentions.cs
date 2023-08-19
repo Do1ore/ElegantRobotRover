@@ -4,7 +4,7 @@ using Infrastructure.Rover.Abstractions;
 using Infrastructure.Rover.Implementation;
 using Microsoft.Extensions.Configuration;
 
-namespace ElegantRobotRover;
+namespace ElegantRobotRover.Extensions;
 
 public static class ContainerBuilderExtensions
 {

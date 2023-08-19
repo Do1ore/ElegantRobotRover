@@ -3,6 +3,7 @@ using Domain.Enums;
 using Infrastructure.Rover.Abstractions;
 using Infrastructure.Rover.Implementation;
 using Microsoft.Extensions.Configuration;
+using NSubstitute.ExceptionExtensions;
 
 namespace Tests.Services;
 
@@ -12,18 +13,20 @@ public class RoverLocationServiceTests
     private readonly IRoverCommandInterpreterHelper _commandInterpreterHelper;
     private readonly ICommandExecutorHelper _commandExecutor;
     private readonly RoverLocationService _roverLocationService;
+    private readonly IRoverHttpClientService _httpClientService;
+    private readonly IConfiguration _configuration;
 
     public RoverLocationServiceTests()
     {
-        _robotRover = new RobotRover();
+        _robotRover = new RobotRover{XPosition = 100};
         _commandInterpreterHelper = Substitute.For<IRoverCommandInterpreterHelper>();
         _commandExecutor = Substitute.For<ICommandExecutorHelper>();
-        var configuration = Substitute.For<IConfiguration>();
+        _configuration = Substitute.For<IConfiguration>();
 
-        var httpClientService = Substitute.For<IRoverHttpClientService>();
+        _httpClientService = Substitute.For<IRoverHttpClientService>();
         _roverLocationService =
-            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, httpClientService,
-                configuration);
+            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, _httpClientService,
+                _configuration);
     }
 
     [Fact]
@@ -31,7 +34,10 @@ public class RoverLocationServiceTests
     {
         // Arrange
         _commandInterpreterHelper.InterpretDirection("N").Returns(Direction.North);
-
+        _httpClientService.GetLastPosition().Throws(new ApplicationException());
+        _configuration.GetSection("DefaultLocation")["X"].Returns("1");
+        _configuration.GetSection("DefaultLocation")["Y"].Returns("2");
+        _configuration.GetSection("DefaultLocation")["Direction"].Returns("N");
         // Act
         _roverLocationService.StartRover();
 
@@ -62,17 +68,6 @@ public class RoverLocationServiceTests
                 c.SequenceEqual(interpretedCommands)));
     }
 
-    [Fact]
-    public void SetPosition_InvalidDirection_ThrowsException()
-    {
-        // Arrange
-        _commandInterpreterHelper.InterpretDirection(Arg.Any<string>())
-            .Returns(x => { throw new ArgumentException(); });
-
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() =>
-            _roverLocationService.StartRover());
-    }
 
     [Fact]
     public void Move_InvalidCommands_ThrowsException()

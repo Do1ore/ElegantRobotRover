@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using ElegantRobotRover;
+using ElegantRobotRover.Extensions;
 using ElegantRobotRover.Helpers;
 using Infrastructure.Rover.Abstractions;
 

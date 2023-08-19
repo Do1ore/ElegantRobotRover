@@ -31,7 +31,7 @@ public class RoverLocationService : IRoverLocationService
 
     public void StartRover()
     {
-        var roverLocation = new RoverLocationDto();
+        RoverLocationDto roverLocation;
         try
         {
             roverLocation = _httpClientService.GetLastPosition();
@@ -42,13 +42,12 @@ public class RoverLocationService : IRoverLocationService
             var (x, y, defaultDirection) = GetDefaultLocationValuesFromConfig();
 
             Console.WriteLine(applicationException.Message);
-            _robotRover = new RobotRover()
-            {
-                XPosition = int.Parse(x),
-                YPosition = int.Parse(y),
-                CurrentDirection = _commandInterpreterHelper.InterpretDirection(defaultDirection)
-            };
+            _robotRover.XPosition = int.Parse(x);
+            _robotRover.YPosition = int.Parse(y);
+            _robotRover.CurrentDirection = _commandInterpreterHelper.InterpretDirection(defaultDirection);
+
             Console.WriteLine("Rover location initialized from config: {0}", _robotRover);
+            return;
         }
 
 
