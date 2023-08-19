@@ -16,18 +16,18 @@ public class RoverHttpClientService : IRoverHttpClientService
         _http = http;
     }
 
-    public async Task SendCurrentPositionAsync(RoverLocationDto locationDto)
+    public void SendCurrentPosition(RoverLocationDto locationDto)
     {
         using StringContent jsonContent = new(
             JsonSerializer.Serialize(locationDto),
             Encoding.UTF8, "application/json");
 
-        var response = await _http.PostAsync(EndpointName, jsonContent);
+        var response = _http.PostAsync(EndpointName, jsonContent).GetAwaiter().GetResult();
     }
 
-    public async Task<RoverLocationDto> GetLastPosition()
+    public RoverLocationDto GetLastPosition()
     {
-        var response = await _http.GetFromJsonAsync<RoverLocationDto>(EndpointName);
+        var response = _http.GetFromJsonAsync<RoverLocationDto>(EndpointName).GetAwaiter().GetResult();
 
         if (response is null)
         {

@@ -17,7 +17,9 @@ public class RoverLocationServiceTests
         _robotRover = new RobotRover();
         _commandInterpreterHelper = Substitute.For<IRoverCommandInterpreterHelper>();
         _commandExecutor = Substitute.For<ICommandExecutorHelper>();
-        _roverLocationService = new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor);
+        var httpClientService = Substitute.For<IRoverHttpClientService>();
+        _roverLocationService =
+            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, httpClientService);
     }
 
     [Fact]
@@ -36,7 +38,7 @@ public class RoverLocationServiceTests
     }
 
     [Fact]
-    public void Move_ValidCommands_CallsExecutor()
+    public async Task Move_ValidCommands_CallsExecutor()
     {
         // Arrange
         var commands = "L1R2";
@@ -64,7 +66,8 @@ public class RoverLocationServiceTests
             .Returns(x => { throw new ArgumentException(); });
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => _roverLocationService.SetPosition(1, 2, "InvalidDirection"));
+        Assert.Throws<ArgumentException>(() =>
+            _roverLocationService.SetPosition(1, 2, "InvalidDirection"));
     }
 
     [Fact]

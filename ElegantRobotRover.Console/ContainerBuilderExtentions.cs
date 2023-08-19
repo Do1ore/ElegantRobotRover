@@ -10,7 +10,7 @@ public static class ContainerBuilderExtensions
 {
     public static void ConfigureCustomServices(this ContainerBuilder builder)
     {
-        builder.RegisterType<RobotRover>();
+        builder.RegisterType<RobotRover>().SingleInstance();
 
         builder.RegisterType<RoverLocationService>().As<IRoverLocationService>().InstancePerLifetimeScope();
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Domain.Enums;
 using Infrastructure.Rover.Abstractions;
@@ -56,8 +57,13 @@ public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
             {
                 commands.Add(new(Turn.Forward, result));
             }
+            
         }
 
+        foreach (var c in commands)
+        {
+            Console.WriteLine($"Command: Dir: {c.Item1}\tCount: {c.Item2}");
+        }
         return commands;
     }
 
