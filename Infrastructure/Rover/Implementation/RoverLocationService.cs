@@ -8,7 +8,7 @@ namespace Infrastructure.Rover.Implementation;
 
 public class RoverLocationService : IRoverLocationService
 {
-    private RobotRover _robotRover;
+    private readonly RobotRover _robotRover;
     private readonly IRoverCommandInterpreterHelper _commandInterpreterHelper;
     private readonly ICommandExecutorHelper _commandExecutor;
     private readonly IRoverHttpClientService _httpClientService;
@@ -38,7 +38,7 @@ public class RoverLocationService : IRoverLocationService
         }
         catch (ApplicationException applicationException)
         {
-            //if space station have no data about last rover    location
+            //if space station have no data about last rover location
             var (x, y, defaultDirection) = GetDefaultLocationValuesFromConfig();
 
             Console.WriteLine(applicationException.Message);
