@@ -1,6 +1,6 @@
 using Domain.DTOs;
 
-namespace Infrastructure.Rover.Abstractions;
+namespace Infrastructure.Abstractions;
 
 /// <summary>
 /// HttpClient to communicate with space station web api

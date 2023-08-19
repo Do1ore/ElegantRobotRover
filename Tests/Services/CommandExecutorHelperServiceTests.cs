@@ -1,7 +1,9 @@
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Rover.Abstractions;
-using Infrastructure.Rover.Implementation;
+using Infrastructure.Abstractions;
+using Infrastructure.Abstractions.Helpers;
+using Infrastructure.Implementation;
+using Infrastructure.Implementation.Helpers;
 
 namespace Tests.Services;
 

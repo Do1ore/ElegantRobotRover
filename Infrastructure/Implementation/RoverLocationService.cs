@@ -1,10 +1,11 @@
 using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Rover.Abstractions;
+using Infrastructure.Abstractions;
+using Infrastructure.Abstractions.Helpers;
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Rover.Implementation;
+namespace Infrastructure.Implementation;
 
 public class RoverLocationService : IRoverLocationService
 {

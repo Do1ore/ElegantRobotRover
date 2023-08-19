@@ -1,7 +1,8 @@
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Rover.Abstractions;
-using Infrastructure.Rover.Implementation;
+using Infrastructure.Abstractions;
+using Infrastructure.Abstractions.Helpers;
+using Infrastructure.Implementation;
 using Microsoft.Extensions.Configuration;
 using NSubstitute.ExceptionExtensions;
 
@@ -18,15 +19,14 @@ public class RoverLocationServiceTests
 
     public RoverLocationServiceTests()
     {
-        _robotRover = new RobotRover{XPosition = 100};
+        _robotRover = new RobotRover { XPosition = 100 };
         _commandInterpreterHelper = Substitute.For<IRoverCommandInterpreterHelper>();
         _commandExecutor = Substitute.For<ICommandExecutorHelper>();
         _configuration = Substitute.For<IConfiguration>();
 
         _httpClientService = Substitute.For<IRoverHttpClientService>();
-        _roverLocationService =
-            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, _httpClientService,
-                _configuration);
+        _roverLocationService = new RoverLocationService(_robotRover, _commandInterpreterHelper,
+            _commandExecutor, _httpClientService,_configuration);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class RoverLocationServiceTests
     }
 
     [Fact]
-    public async Task Move_ValidCommands_CallsExecutor()
+    public Task Move_ValidCommands_CallsExecutor()
     {
         // Arrange
         var commands = "L1R2";
@@ -66,6 +66,7 @@ public class RoverLocationServiceTests
         _commandExecutor.Received(1).ExecuteMoveCommand(
             Arg.Is<List<(Turn turn, int timesToExecute)>>(c =>
                 c.SequenceEqual(interpretedCommands)));
+        return Task.CompletedTask;
     }
 
 
@@ -74,7 +75,7 @@ public class RoverLocationServiceTests
     {
         // Arrange
         var commands = "L1R2";
-        _commandInterpreterHelper.InterpretCommand(commands).Returns(x => { throw new ArgumentException(); });
+        _commandInterpreterHelper.InterpretCommand(commands).Throws(new ArgumentException());
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => _roverLocationService.Move(commands));

@@ -1,9 +1,8 @@
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Domain.Enums;
-using Infrastructure.Rover.Abstractions;
+using Infrastructure.Abstractions.Helpers;
 
-namespace Infrastructure.Rover.Implementation;
+namespace Infrastructure.Implementation.Helpers;
 
 public class RoverCommandInterpreterHelper : IRoverCommandInterpreterHelper
 {

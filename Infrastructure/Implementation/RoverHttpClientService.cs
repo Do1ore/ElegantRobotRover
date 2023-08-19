@@ -2,9 +2,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using Domain.DTOs;
-using Infrastructure.Rover.Abstractions;
+using Infrastructure.Abstractions;
 
-namespace Infrastructure.Rover.Implementation;
+namespace Infrastructure.Implementation;
 
 public class RoverHttpClientService : IRoverHttpClientService
 {

@@ -1,6 +1,6 @@
 using Domain.Enums;
 
-namespace Infrastructure.Rover.Abstractions;
+namespace Infrastructure.Abstractions.Helpers;
 
 /// <summary>
 /// Helps with compass directions

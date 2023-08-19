@@ -1,4 +1,6 @@
-namespace Infrastructure.Rover.Abstractions;
+using Infrastructure.Abstractions.Helpers;
+
+namespace Infrastructure.Abstractions;
 
 /// <summary>
 /// Service to drive a rover

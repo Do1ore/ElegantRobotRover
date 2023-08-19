@@ -1,7 +1,9 @@
 using Autofac;
 using Domain.Entities;
-using Infrastructure.Rover.Abstractions;
-using Infrastructure.Rover.Implementation;
+using Infrastructure.Abstractions;
+using Infrastructure.Abstractions.Helpers;
+using Infrastructure.Implementation;
+using Infrastructure.Implementation.Helpers;
 using Microsoft.Extensions.Configuration;
 
 namespace ElegantRobotRover.Extensions;

@@ -1,4 +1,4 @@
-using Infrastructure.Rover.Abstractions;
+using Infrastructure.Abstractions;
 
 namespace ElegantRobotRover.Helpers;
 
