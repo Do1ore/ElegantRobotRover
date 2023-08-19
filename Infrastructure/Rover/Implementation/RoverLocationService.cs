@@ -1,5 +1,6 @@
 using Domain.DTOs;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Rover.Abstractions;
 using Microsoft.Extensions.Configuration;
 
@@ -47,13 +48,17 @@ public class RoverLocationService : IRoverLocationService
                 YPosition = int.Parse(y),
                 CurrentDirection = _commandInterpreterHelper.InterpretDirection(defaultDirection)
             };
+            Console.WriteLine("Rover location initialized from config: {0}", _robotRover);
         }
+
 
         //if space station have data about last rover location
         _robotRover.XPosition = roverLocation.XPosition;
         _robotRover.YPosition = roverLocation.YPosition;
         _robotRover.CurrentDirection = _commandInterpreterHelper.InterpretDirection(roverLocation.CurrentDirection ??
             throw new InvalidOperationException("Current direction is not valid"));
+
+        Console.WriteLine("Rover location read from SpaceStation: {0}", _robotRover);
     }
 
 
@@ -66,7 +71,7 @@ public class RoverLocationService : IRoverLocationService
         {
             XPosition = _robotRover.XPosition,
             YPosition = _robotRover.YPosition,
-            CurrentDirection = _robotRover.CurrentDirection.ToString(),
+            CurrentDirection = _robotRover.CurrentDirection.ToStringFast(),
             LastLocationDateTime = DateTime.UtcNow,
         });
         Console.WriteLine(_robotRover.ToString());

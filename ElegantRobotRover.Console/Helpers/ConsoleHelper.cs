@@ -4,8 +4,9 @@ namespace ElegantRobotRover.Helpers;
 
 public static class ConsoleHelper
 {
-    public static void ManageRoverCommands(IRoverLocationService roverLocationService)
+    public static void ManageRoverCommands(IRoverLocationService roverLocationService, out bool stop)
     {
+        stop = false;
         var command = Console.ReadLine() ?? throw new ArgumentException("Command cannot be null");
         int.TryParse(command, out var intCommand);
 
@@ -25,6 +26,7 @@ public static class ConsoleHelper
 
                 break;
             case 0:
+                stop = true;
                 break;
         }
     }

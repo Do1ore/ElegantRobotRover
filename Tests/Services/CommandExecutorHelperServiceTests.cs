@@ -15,7 +15,8 @@ public class CommandExecutorHelperServiceTests
     {
         _rover = new RobotRover { XPosition = 10, YPosition = 10, CurrentDirection = Direction.North };
         _direction = Substitute.For<IRoverDirectionHelper>();
-        _commandExecutor = new CommandExecutorHelper(_rover, _direction);
+        var httpClientService = Substitute.For<IRoverHttpClientService>();
+        _commandExecutor = new CommandExecutorHelper(_rover, _direction, httpClientService);
     }
 
     [Fact]

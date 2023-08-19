@@ -15,16 +15,10 @@ var container = builder.Build();
 using var scope = container.BeginLifetimeScope();
 
 var roverLocationService = scope.Resolve<IRoverLocationService>();
-var httpClientService = scope.Resolve<IRoverHttpClientService>();
 
-var result = httpClientService.GetLastPosition();
-
-Console.WriteLine("Last position from api: {0}", result);
-ConsoleHelper.PrintActionsInfo();
 while (true)
 {
-    ConsoleHelper.ManageRoverCommands(roverLocationService);  
+    ConsoleHelper.PrintActionsInfo();
+    ConsoleHelper.ManageRoverCommands(roverLocationService, out var stop);
+    if (stop) break;
 }
-
-
-

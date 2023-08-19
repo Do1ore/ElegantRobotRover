@@ -1,3 +1,4 @@
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Rover.Abstractions;
@@ -7,13 +8,16 @@ namespace Infrastructure.Rover.Implementation;
 public class CommandExecutorHelper : ICommandExecutorHelper
 {
     private readonly RobotRover _rover;
+    private readonly IRoverHttpClientService _httpClientService;
     private readonly IRoverDirectionHelper _direction;
 
+
     public CommandExecutorHelper(RobotRover rover,
-        IRoverDirectionHelper direction)
+        IRoverDirectionHelper direction, IRoverHttpClientService httpClientService)
     {
         _rover = rover;
         _direction = direction;
+        _httpClientService = httpClientService;
     }
 
     public void ExecuteMoveCommand(List<(Turn turn, int timesToExecute)> commands)
@@ -35,12 +39,14 @@ public class CommandExecutorHelper : ICommandExecutorHelper
                     _direction.ChangeRoverDirection(Turn.Right);
                     MoveRover(_rover.CurrentDirection, command.timesToExecute);
                     break;
-                
+
                 default: throw new ArgumentException("Invalid command");
             }
 
             Console.WriteLine(_rover.ToString());
         }
+
+        _httpClientService.SendCurrentPosition(_rover);
     }
 
     private void MoveRover(Direction direction, int count)

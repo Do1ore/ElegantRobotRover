@@ -22,7 +22,7 @@ public class RoverHttpClientService : IRoverHttpClientService
             JsonSerializer.Serialize(locationDto),
             Encoding.UTF8, "application/json");
 
-        var response = _http.PostAsync(EndpointName, jsonContent).GetAwaiter().GetResult();
+        _ = _http.PostAsync(EndpointName, jsonContent).GetAwaiter().GetResult();
     }
 
     public RoverLocationDto GetLastPosition()
