@@ -2,6 +2,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Rover.Abstractions;
 using Infrastructure.Rover.Implementation;
+using Microsoft.Extensions.Configuration;
 
 namespace Tests.Services;
 
@@ -17,9 +18,12 @@ public class RoverLocationServiceTests
         _robotRover = new RobotRover();
         _commandInterpreterHelper = Substitute.For<IRoverCommandInterpreterHelper>();
         _commandExecutor = Substitute.For<ICommandExecutorHelper>();
+        var configuration = Substitute.For<IConfiguration>();
+
         var httpClientService = Substitute.For<IRoverHttpClientService>();
         _roverLocationService =
-            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, httpClientService);
+            new RoverLocationService(_robotRover, _commandInterpreterHelper, _commandExecutor, httpClientService,
+                configuration);
     }
 
     [Fact]
@@ -29,7 +33,7 @@ public class RoverLocationServiceTests
         _commandInterpreterHelper.InterpretDirection("N").Returns(Direction.North);
 
         // Act
-        _roverLocationService.SetPosition(1, 2, "N");
+        _roverLocationService.StartRover();
 
         // Assert
         Assert.Equal(1, _robotRover.XPosition);
@@ -67,7 +71,7 @@ public class RoverLocationServiceTests
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() =>
-            _roverLocationService.SetPosition(1, 2, "InvalidDirection"));
+            _roverLocationService.StartRover());
     }
 
     [Fact]

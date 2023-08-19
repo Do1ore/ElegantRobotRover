@@ -1,44 +1,61 @@
 using Domain.DTOs;
 using Domain.Entities;
 using Infrastructure.Rover.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Rover.Implementation;
 
 public class RoverLocationService : IRoverLocationService
 {
-    private readonly RobotRover _robotRover;
+    private RobotRover _robotRover;
     private readonly IRoverCommandInterpreterHelper _commandInterpreterHelper;
     private readonly ICommandExecutorHelper _commandExecutor;
     private readonly IRoverHttpClientService _httpClientService;
+    private readonly IConfiguration _configuration;
 
-    public RoverLocationService(RobotRover robotRover,
+    public RoverLocationService(
+        RobotRover robotRover,
         IRoverCommandInterpreterHelper commandInterpreterHelper,
         ICommandExecutorHelper commandExecutor,
-        IRoverHttpClientService httpClientService)
+        IRoverHttpClientService httpClientService,
+        IConfiguration configuration
+    )
     {
         _robotRover = robotRover;
         _commandInterpreterHelper = commandInterpreterHelper;
         _commandExecutor = commandExecutor;
         _httpClientService = httpClientService;
+        _configuration = configuration;
     }
 
-    public void SetPosition(int x, int y, string direction)
+    public void StartRover()
     {
-        _robotRover.XPosition = x;
-        _robotRover.YPosition = y;
-        var directionEnum = _commandInterpreterHelper.InterpretDirection(direction);
-        _robotRover.CurrentDirection = directionEnum;
-
-        _httpClientService.SendCurrentPosition(new RoverLocationDto
+        var roverLocation = new RoverLocationDto();
+        try
         {
-            XPosition = x,
-            YPosition = y,
-            CurrentDirection = direction,
-            LastLocationDateTime = DateTime.UtcNow,
-        });
+            roverLocation = _httpClientService.GetLastPosition();
+        }
+        catch (ApplicationException applicationException)
+        {
+            //if space station have no data about last rover    location
+            var (x, y, defaultDirection) = GetDefaultLocationValuesFromConfig();
 
-        
+            Console.WriteLine(applicationException.Message);
+            _robotRover = new RobotRover()
+            {
+                XPosition = int.Parse(x),
+                YPosition = int.Parse(y),
+                CurrentDirection = _commandInterpreterHelper.InterpretDirection(defaultDirection)
+            };
+        }
+
+        //if space station have data about last rover location
+        _robotRover.XPosition = roverLocation.XPosition;
+        _robotRover.YPosition = roverLocation.YPosition;
+        _robotRover.CurrentDirection = _commandInterpreterHelper.InterpretDirection(roverLocation.CurrentDirection ??
+            throw new InvalidOperationException("Current direction is not valid"));
     }
+
 
     public void Move(string commands)
     {
@@ -53,5 +70,17 @@ public class RoverLocationService : IRoverLocationService
             LastLocationDateTime = DateTime.UtcNow,
         });
         Console.WriteLine(_robotRover.ToString());
+    }
+
+    private (string x, string y, string defaultDirection) GetDefaultLocationValuesFromConfig()
+    {
+        var x = _configuration.GetSection("DefaultLocation")["X"] ??
+                throw new ArgumentException("DefaultLocation for x not found");
+        var y = _configuration.GetSection("DefaultLocation")["Y"] ??
+                throw new ArgumentException("DefaultLocation for y not found");
+
+        var defaultDirection = _configuration.GetSection("DefaultLocation")["Direction"] ??
+                               throw new ArgumentException("Default location not found");
+        return (x, y, defaultDirection);
     }
 }

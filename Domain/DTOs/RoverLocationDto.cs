@@ -4,7 +4,7 @@ using Domain.Enums;
 
 namespace Domain.DTOs;
 
-public class RoverLocationDto
+public record RoverLocationDto
 {
     public long XPosition { get; set; }
     public long YPosition { get; set; }
