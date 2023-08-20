@@ -1,5 +1,7 @@
 using Autofac;
+using Confluent.Kafka;
 using Domain.Entities;
+using Infrastructure;
 using Infrastructure.Abstractions;
 using Infrastructure.Abstractions.Helpers;
 using Infrastructure.Implementation;
@@ -43,9 +45,21 @@ public static class ContainerBuilderExtensions
         var baseUrl = configuration.GetSection("DefaultSpaceStationUrl").Value ??
                       throw new ArgumentException("DefaultSpaceStationUrl not found");
 
-        builder.RegisterInstance(new HttpClient()
+        builder.RegisterInstance(new HttpClient
         {
             BaseAddress = new Uri(baseUrl)
         }).SingleInstance();
+    }
+
+    public static void ConfigureKafkaProducer(this ContainerBuilder builder, IConfiguration configuration)
+    {
+        var bootstrapServers = configuration.GetSection("Kafka")["BootstrapServers"] ??
+                               throw new ArgumentException("BootstrapServers not found");
+
+        var producerConfig = new ProducerConfig { BootstrapServers = bootstrapServers };
+
+        builder.RegisterType<KafkaProducer>()
+            .WithParameter("producerConfig", producerConfig)
+            .SingleInstance();
     }
 }

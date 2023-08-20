@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ElegantRobotRover.Console": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
