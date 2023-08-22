@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Confluent.Kafka;
 
 namespace Infrastructure;
@@ -14,6 +15,6 @@ public class KafkaProducer
     public async Task ProduceAsync(string topic, string message)
     {
         var deliveryReport = await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message });
-        Console.WriteLine($"Produced message to: {deliveryReport.TopicPartitionOffset}");
+        Debug.WriteLine($"Produced message to: {deliveryReport.TopicPartitionOffset}");
     }
 }

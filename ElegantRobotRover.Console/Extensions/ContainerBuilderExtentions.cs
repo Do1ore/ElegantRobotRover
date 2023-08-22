@@ -4,9 +4,11 @@ using Domain.Entities;
 using Infrastructure;
 using Infrastructure.Abstractions;
 using Infrastructure.Abstractions.Helpers;
+using Infrastructure.BackgroundWorkers;
 using Infrastructure.Implementation;
 using Infrastructure.Implementation.Helpers;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace ElegantRobotRover.Extensions;
 
@@ -26,6 +28,8 @@ public static class ContainerBuilderExtensions
         builder.RegisterType<CommandExecutorHelper>().As<ICommandExecutorHelper>().InstancePerLifetimeScope();
 
         builder.RegisterType<RoverHttpClientService>().As<IRoverHttpClientService>().InstancePerLifetimeScope();
+
+        builder.RegisterType<KafkaBackgroundService>().As<IHostedService>();
     }
 
     public static IConfiguration AddConfiguration(this ContainerBuilder builder)
