@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Implementation;
 using Infrastructure.Implementation.Helpers;
 
 namespace Tests.Services;
